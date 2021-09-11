@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="bedroom_values">
+        <item>Choose one (required)</item>
+        <item>Studio</item>
+        <item>One</item>
+        <item>Two</item>
+        <item>Three</item>
+        <item>Tuesday Room</item>
+    </string-array>
+</resources>

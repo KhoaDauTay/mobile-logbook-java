@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="furniture_value">
+        <item>Choose optional</item>
+        <item>Furnished</item>
+        <item>Unfurnished</item>
+        <item>Part Furnished</item>
+    </string-array>
+</resources>

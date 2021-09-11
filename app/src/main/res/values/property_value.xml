@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="property_types">
+        <item>Choose one (required)</item>
+        <item>House</item>
+        <item>Flat</item>
+        <item>Bungalow</item>
+    </string-array>
+</resources>
