@@ -87,6 +87,9 @@ public class MainActivity2 extends AppCompatActivity {
         jsonParams.put("notes", model.get_noteText());
         jsonParams.put("name_reporter", model.get_reporter());
         jsonParams.put("reporter", null);
+        jsonParams.put("name", model.get_reporter());
+        jsonParams.put("address", "");
+        jsonParams.put("image", null);
         JSONObject jsonBody = new JSONObject(jsonParams);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), jsonBody.toString());
 

@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.appbar.MaterialToolbar;
 
@@ -148,7 +149,7 @@ public class FormActivity extends AppCompatActivity {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatDate, Locale.US);
         _formModel.set_createdDate(simpleDateFormat.format(new Date()));
         createdDate = findViewById(R.id.valueDate);
-        createdDate.setText(_formModel.get_createdDate());
+        createdDate.setText("");
 
         buttonAddDate = findViewById(R.id.buttonAddDate);
         DatePickerDialog.OnDateSetListener datePicker = (
@@ -163,6 +164,7 @@ public class FormActivity extends AppCompatActivity {
             DatePickerDialog dialog = new DatePickerDialog(
                     FormActivity.this, datePicker, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)
             );
+            createdDate.setError(null);
             dialog.getDatePicker().setMaxDate(new Date().getTime());
             dialog.show();
         });
@@ -201,7 +203,8 @@ public class FormActivity extends AppCompatActivity {
 
                         String value = propertyList.get(position);
                         _formModel.set_propertyType(value);
-
+                        TextView error = (TextView) propertyType.getSelectedView();
+                        error.setError(null);
                     }
 
                     @Override
@@ -307,52 +310,79 @@ public class FormActivity extends AppCompatActivity {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatDate, Locale.US);
 
         createdDate.setText(simpleDateFormat.format(myCalendar.getTime()));
-        createdDate.setError(null);
         _formModel.set_createdDate(simpleDateFormat.format(myCalendar.getTime()));
     }
 
     public void nextScreen(View view) {
-        boolean validation = checkValidation();
-        if(validation) {
+        if(!validatePropertyType() | !validateBed() | !validateDate() | !validateRent() | !validateReporter() |!validateNote()){
+            Toast.makeText(FormActivity.this, "Error: Please check your data at field error", Toast.LENGTH_LONG).show();
+        }
+        else {
             Intent i = new Intent(FormActivity.this, MainActivity2.class);
             i.putExtra("data", _formModel);
             startActivity(i);
         }
     }
-
-    private boolean checkValidation() {
-            if(propertyType.getSelectedItem().toString().equals("Choose one (required)")) {
-                TextView error = (TextView) propertyType.getSelectedView();
-                error.setError("Please select a valid property type before submit");
-                return false;
-            }
-            if(bedRoom.getSelectedItem().toString().equals("Choose one (required)")) {
-                TextView error = (TextView) bedRoom.getSelectedView();
-                error.setError("Please select a valid property type before submit");
-                return false;
-            }
-            if(createdDate.getText().length() == 0);
-            {
-                createdDate.setError("Please choose day");
-            }
-            if(inputRent.length() <= 0) {
-                inputRent.setError("Please fill this field before Submit");
-                return false;
-            }
-            if(Double.parseDouble(inputRent.getText().toString()) <= 0.00) {
-                inputRent.setError("Price must be larger or equal 0");
-                return false;
-            }
-            if(inputReporter.length() <= 0) {
-                inputReporter.setError("Please fill this field before Submit");
-                return false;
-            }
-
-            if(inputNote.length() > 100) {
-                inputNote.setError("the maximum length of notes are 100");
-                return false;
-            }
-
-        return true;
+    private boolean validatePropertyType() {
+        if(propertyType.getSelectedItem().toString().equals("Choose one (required)")) {
+            TextView error = (TextView) propertyType.getSelectedView();
+            error.setError("Please select a valid property type before submit");
+            return false;
+        } else{
+            TextView error = (TextView) propertyType.getSelectedView();
+            error.setError(null);
+            return true;
+        }
+    }
+    private boolean validateBed() {
+        if(bedRoom.getSelectedItem().toString().equals("Choose one (required)")) {
+            TextView error = (TextView) bedRoom.getSelectedView();
+            error.setError("Please select a valid bed room type before submit");
+            return false;
+        }else{
+            TextView error = (TextView) bedRoom.getSelectedView();
+            error.setError(null);
+            return true;
+        }
+    }
+    private boolean validateDate() {
+        if(createdDate.getText().toString().length() == 0)
+        {
+            createdDate.setError("Please choose day");
+            return false;
+        } else {
+            createdDate.setError(null);
+            return true;
+        }
+    }
+    private boolean validateRent() {
+        if(inputRent.length() <= 0.00) {
+            inputRent.setError("Please fill this field before Submit");
+            return false;
+        }
+        else {
+            inputRent.setError(null);
+            return true;
+        }
+    }
+    private boolean validateReporter(){
+        if(inputReporter.length() == 0) {
+            inputReporter.setError("Please fill this field before Submit");
+            return false;
+        }
+        else {
+            inputReporter.setError(null);
+            return true;
+        }
+    }
+    private boolean validateNote() {
+        if(inputNote.length() > 100) {
+            inputNote.setError("the maximum length of notes are 100");
+            return false;
+        }
+        else {
+            inputNote.setError(null);
+            return true;
+        }
     }
 }

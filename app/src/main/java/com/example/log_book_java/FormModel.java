@@ -12,6 +12,8 @@ public class FormModel implements Serializable {
     private String notes;
     private String name_reporter;
     private String reporter;
+    private String name;
+    private String address;
 
     public FormModel() {
         this.property = "";
@@ -22,6 +24,8 @@ public class FormModel implements Serializable {
         this.notes = "";
         this.name_reporter = "";
         this.reporter = "";
+        this.name="";
+        this.address="";
     }
 
     public String get_propertyType() {
